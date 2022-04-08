@@ -1,0 +1,29 @@
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+.navUserMenu {
+  height: 50px;
+  bottom: 1 solid red;
+  background-color: yellow;
+}
+
+.navBar {
+  background-color: red;
+}
+
+.navRightSide {
+  display: flex;
+  align-items: center;
+}
+
+.navMenuLinks {
+  display: flex;
+}
+
+.menuLinkItem {
+  padding-right: 20px;
+}
