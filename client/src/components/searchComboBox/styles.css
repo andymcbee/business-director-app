@@ -1,0 +1,27 @@
+.SearchComboBox {
+  display: flex;
+  justify-content: center;
+  height: 40%;
+  align-items: center;
+}
+
+.searchWrapper {
+  display: flex;
+  background-color: #fff;
+  padding: 55px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+@media (max-width: 800px) {
+  .searchWrapper {
+    margin-top: 50px;
+    padding: 20px;
+    flex-direction: column;
+  }
+}
+
+.searchItem {
+  padding: 10px;
+}
