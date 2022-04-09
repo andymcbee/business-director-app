@@ -8,15 +8,17 @@ dotenv.config();
 export const signup = async (req, res) => {
   const { email, password, confirmPassword, firstName, lastName } = req.body;
 
+  console.log(req.body);
+
   try {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      res.status(400).json({ message: "User already exists!" });
+      return res.status(400).json({ message: "User already exists!" });
     }
 
     if (password !== confirmPassword) {
-      res.status(400).json({ message: "Passwords do not match!" });
+      return res.status(400).json({ message: "Passwords do not match!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -37,7 +39,7 @@ export const signup = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ result: { newUser }, token });
+    res.status(200).json({ result: { newUser }, token, _id: newUser._id });
   } catch (error) {
     res.status(409).json({ message: error });
   }
