@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Navbar from "../../components/navbar/Navbar";
 import { useDispatch } from "react-redux";
 import { signup } from "../../actions/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const initialStateFormData = {
@@ -22,12 +23,13 @@ export default function Signup() {
   };
 
   const history = "true";
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialStateFormData);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(signup(formData, history));
+    dispatch(signup(formData, navigate));
   };
 
   const handleChange = (e) => {

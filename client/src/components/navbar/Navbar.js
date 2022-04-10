@@ -1,17 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import * as actionType from "../../constants/actionTypes";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function Navbar() {
-  let user = false;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const testVar = useSelector((state) => state.authData);
+  useEffect(() => {
+    console.log(user);
+    setUser(JSON.parse(localStorage.getItem("profile")));
+    console.log("LOcation changed");
+    console.log(user);
+  }, [location]);
+
+  useEffect(() => {
+    console.log("testVar");
+    console.log(testVar);
+
+    console.log("testVar");
+  });
+
+  const handleUserLogout = () => {
+    dispatch({ type: actionType.LOGOUT });
+  };
+
   return (
     <div className="navBar ">
       <div className="navLogo">Logo</div>
+      {user && <div>ONLY FOR LOGGED IN USERS</div>}{" "}
       <div className="navRightSide">
         <div className="navMenuLinks rightNavSection">
           <Link to="/" className="link">
             <div className="menuLinkItem">Home</div>
           </Link>
-          {user && <div className="menuLinkItem">Signout</div>}
+
+          {user && (
+            <Link to="/" className="link" onClick={handleUserLogout}>
+              <div className="menuLinkItem">Logout</div>
+            </Link>
+          )}
           {!user && (
             <Link to="/signin" className="link">
               <div className="menuLinkItem">Signin</div>

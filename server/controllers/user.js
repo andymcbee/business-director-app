@@ -39,7 +39,48 @@ export const signup = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ result: { newUser }, token, _id: newUser._id });
+    res.status(200).json({ result: { newUser }, token });
+  } catch (error) {
+    res.status(409).json({ message: error });
+  }
+};
+
+export const signin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    //find user by email
+
+    const existingUser = await User.findOne({ email });
+
+    //if NOT USER... return error response
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "User does not exist" });
+    }
+
+    //IF USER compare provided PW with hashed password
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    //If no PW match, return error
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Incorrect credentials" });
+    }
+
+    //get JWT
+
+    const token = jwt.sign(
+      { email: existingUser.email, id: existingUser._id },
+      process.env.JWTSECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ result: existingUser, token });
+
+    // then send JWT + User to front end
   } catch (error) {
     res.status(409).json({ message: error });
   }
